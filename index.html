@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="HeadlineForge: AI-powered headline & subheadline generator for startup founders, marketers, and solopreneurs. Create scroll-stopping, high-converting landing page copy.">
+  <meta name="theme-color" content="#0f2027">
+  <meta property="og:title" content="HeadlineForge — AI Headline & Subheadline Generator">
+  <meta property="og:description" content="Forge headlines that convert. Calm sk-b1009a2922f14a5c862165538065c903 creative anxiety with DeepSeek AI.">
+  <meta property="og:type" content="website">
+  <title>HeadlineForge — AI Headline & Subheadline Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-start: #0f2027;
+      --bg-mid: #203a43;
+      --bg-end: #2c5364;
+      --frost-bg: rgba(255, 255, 255, 0.08);
+      --frost-border: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: #b0c7d1;
+      --accent: #4ecdc4;
+      --accent-hover: #3dbdb5;
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      --radius: 16px;
+      --radius-sm: 12px;
+      --transition: 0.25s ease;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-mid) 45%, var(--bg-end) 100%);
+      min-height: 100vh;
+      color: var(--text-primary);
+      line-height: 1.5;
+      font-weight: 400;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .glass-card {
+      background: var(--frost-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius);
+      box-shadow: var(--card-shadow);
+      padding: 2rem;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(15, 32, 39, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 350;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+      text-decoration: none;
+      background: linear-gradient(135deg, #ffffff, #cfe9e6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 1.8rem;
+      font-weight: 400;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color var(--transition);
+      padding: 0.4rem 0;
+      border-bottom: 2px solid transparent;
+    }
+
+    .nav-links a.active,
+    .nav-links a:hover {
+      color: var(--text-primary);
+      border-bottom-color: var(--accent);
+    }
+
+    #nav-toggle {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      z-index: 101;
+    }
+
+    .hamburger span {
+      width: 26px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: var(--transition);
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(15, 32, 39, 0.95);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 1.5rem 2rem;
+        gap: 1.2rem;
+        border-bottom: 1px solid var(--frost-border);
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      #nav-toggle:checked ~ .nav-links {
+        display: flex;
+      }
+
+      #nav-toggle:checked + .hamburger span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      #nav-toggle:checked + .hamburger span:nth-child(2) {
+        opacity: 0;
+      }
+      #nav-toggle:checked + .hamburger span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+
+    main {
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 1.5rem;
+      flex: 1;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem 2.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 3.8rem);
+      font-weight: 300;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    .generator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1rem 0 3rem;
+    }
+
+    .form-card {
+      width: 100%;
+      max-width: 720px;
+      margin-bottom: 2.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.3px;
+    }
+
+    textarea,
+    input[type="text"],
+    select {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1rem;
+      font-size: 1rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color var(--transition);
+      font-family: inherit;
+      resize: vertical;
+    }
+
+    textarea:focus,
+    input[type="text"]:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.15);
+    }
+
+    textarea {
+      min-height: 90px;
+    }
+
+    .inline-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .inline-group .form-group {
+      flex: 1 1 0;
+      min-width: 140px;
+    }
+
+    .count-selector {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 0.3rem;
+    }
+
+    .count-option {
+      position: relative;
+    }
+
+    .count-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .count-option label {
+      display: inline-block;
+      padding: 0.5rem 1.1rem;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+      font-weight: 500;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+
+    .count-option input:checked+label {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0f2027;
+      font-weight: 600;
+    }
+
+    .generate-btn {
+      background: var(--accent);
+      border: none;
+      color: #0f2027;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.9rem 2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background var(--transition), transform 0.2s;
+      letter-spacing: 0.3px;
+      width: 100%;
+      margin-top: 0.8rem;
+    }
+
+    .generate-btn:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .generate-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .output-area {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(255, 255, 255, 0.15);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .result-card {
+      background: var(--frost-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s;
+    }
+
+    .result-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .headline {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+      color: var(--text-primary);
+      word-break: break-word;
+    }
+
+    .subheadline {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 1.2rem;
+      flex: 1;
+      word-break: break-word;
+    }
+
+    .copy-btn {
+      align-self: flex-start;
+      background: rgba(78, 205, 196, 0.15);
+      border: 1px solid rgba(78, 205, 196, 0.3);
+      color: var(--accent);
+      padding: 0.4rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      letter-spacing: 0.3px;
+      background: rgba(78, 205, 196, 0.08);
+    }
+
+    .copy-btn:hover {
+      background: rgba(78, 205, 196, 0.2);
+      border-color: var(--accent);
+    }
+
+    .error-card,
+    .info-card {
+      background: var(--frost-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--frost-border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+    }
+
+    .info-card a {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .how-it-works {
+      margin: 4rem 0;
+      text-align: center;
+    }
+
+    .how-it-works h2 {
+      font-size: 2.2rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .steps-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .step-card {
+      flex: 1 1 260px;
+      max-width: 320px;
+      text-align: left;
+    }
+
+    .step-number {
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .step-card h3 {
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-card p {
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .cta-section {
+      display: flex;
+      justify-content: center;
+      margin: 3rem 0;
+    }
+
+    .cta-card {
+      max-width: 650px;
+      text-align: center;
+      padding: 2.5rem;
+    }
+
+    .cta-card h2 {
+      font-size: 2rem;
+      font-weight: 300;
+      margin-bottom: 0.8rem;
+    }
+
+    .cta-card p {
+      color: var(--text-secondary);
+      margin-bottom: 1.8rem;
+      font-weight: 300;
+    }
+
+    .outline-btn {
+      background: transparent;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      padding: 0.7rem 2rem;
+      border-radius: 30px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all var(--transition);
+      display: inline-block;
+    }
+
+    .outline-btn:hover {
+      background: rgba(78, 205, 196, 0.12);
+    }
+
+    footer {
+      width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 480px) {
+      .glass-card {
+        padding: 1.5rem;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .inline-group {
+        flex-direction: column;
+      }
+      .count-selector {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="#" class="logo">HeadlineForge</a>
+      <input type="checkbox" id="nav-toggle">
+      <label for="nav-toggle" class="hamburger">
+        <span></span><span></span><span></span>
+      </label>
+      <ul class="nav-links">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Privacy</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <h1>Forge Headlines That Convert</h1>
+      <p>Generate scroll-stopping, high-converting headlines and subheadlines for your landing page — powered by DeepSeek AI. Calm your creative anxiety.</p>
+    </section>
+
+    <section class="generator">
+      <div class="form-card glass-card">
+        <div class="form-group">
+          <label for="business">Describe Your Business or Offer *</label>
+          <textarea id="business" placeholder="e.g., We help busy parents plan healthy weekly meals in under 10 minutes..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="audience">Target Audience</label>
+          <input type="text" id="audience" placeholder="e.g., Working moms, Gen Z shoppers...">
+        </div>
+        <div class="form-group">
+          <label for="benefit">Key Benefit (Optional)</label>
+          <input type="text" id="benefit" placeholder="e.g., Saves 5 hours per week, Boosts sales 30%...">
+        </div>
+        <div class="inline-group">
+          <div class="form-group">
+            <label for="tone">Tone of Voice</label>
+            <select id="tone">
+              <option value="Professional">Professional</option>
+              <option value="Friendly & Casual">Friendly & Casual</option>
+              <option value="Bold & Edgy">Bold & Edgy</option>
+              <option value="Empathetic">Empathetic</option>
+              <option value="Luxury/Premium">Luxury/Premium</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Number of Headlines</label>
+            <div class="count-selector">
+              <div class="count-option">
+                <input type="radio" id="count3" name="count" value="3">
+                <label for="count3">3</label>
+              </div>
+              <div class="count-option">
+                <input type="radio" id="count5" name="count" value="5" checked>
+                <label for="count5">5</label>
+              </div>
+              <div class="count-option">
+                <input type="radio" id="count7" name="count" value="7">
+                <label for="count7">7</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button id="generateBtn" class="generate-btn">✨ Generate Headlines</button>
+      </div>
+
+      <div id="output" class="output-area">
+        <!-- dynamic content -->
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps-grid">
+        <div class="step-card glass-card">
+          <div class="step-number">1.</div>
+          <h3>Describe Your Offer</h3>
+          <p>Tell us about your product and who it's for — the clearer the input, the sharper the output.</p>
+        </div>
+        <div class="step-card glass-card">
+          <div class="step-number">2.</div>
+          <h3>AI Forges Headlines</h3>
+          <p>DeepSeek AI analyzes your input and generates persuasive, on-brand headlines in seconds.</p>
+        </div>
+        <div class="step-card glass-card">
+          <div class="step-number">3.</div>
+          <h3>Copy & Launch</h3>
+          <p>Pick the best one, copy it, and put it straight onto your landing page. No creative block.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-card glass-card">
+        <h2>Need a Full Landing Page?</h2>
+        <p>Our AI gives you great headlines — but a high-converting page needs more. Hire a professional copywriter to complete your project.</p>
+        <a href="#" class="outline-btn">Find a Copywriter on Fiverr</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2024 HeadlineForge. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Twitter</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms</a>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      const generateBtn = document.getElementById('generateBtn');
+      const outputDiv = document.getElementById('output');
+      const businessInput = document.getElementById('business');
+      const audienceInput = document.getElementById('audience');
+      const benefitInput = document.getElementById('benefit');
+      const toneSelect = document.getElementById('tone');
+      const countRadios = document.getElementsByName('count');
+
+      function escapeHtml(text) {
+        return text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      function getSelectedCount() {
+        for (const radio of countRadios) {
+          if (radio.checked) return radio.value;
+        }
+        return '5';
+      }
+
+      async function generateHeadlines() {
+        const business = businessInput.value.trim();
+        if (!business) {
+          alert('Please describe your business or offer.');
+          businessInput.focus();
+          return;
+        }
+
+        const audience = audienceInput.value.trim() || 'general audience';
+        const benefit = benefitInput.value.trim() || 'N/A';
+        const tone = toneSelect.value;
+        const count = getSelectedCount();
+
+        const prompt = `Write ${count} landing page headlines and subheadlines for the following business: ${business}. Target audience: ${audience}. Key benefit: ${benefit}. Tone: ${tone}. Format each as HEADLINE | Subheadline.`;
+
+        // Show loading state
+        outputDiv.innerHTML = `
+          <div class="loading">
+            <div class="spinner"></div>
+            <p style="color: var(--text-secondary);">Forging your headlines...</p>
+          </div>
+        `;
+
+        try {
+          // Call our secure backend proxy
+          const response = await fetch('/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+          });
+
+          if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.error || 'Request failed');
+          }
+
+          const data = await response.json();
+          const content = data.choices[0].message.content;
+
+          const lines = content.split('\n').filter(line => line.trim() !== '');
+          if (lines.length === 0) {
+            throw new Error('No headlines generated. Try a more detailed description.');
+          }
+
+          let cardsHTML = '';
+          lines.forEach(line => {
+            let headline, subheadline;
+            const parts = line.split('|').map(s => s.trim());
+            if (parts.length >= 2) {
+              headline = parts[0];
+              subheadline = parts.slice(1).join(' ').replace(/^["']|["']$/g, '');
+            } else {
+              headline = line;
+              subheadline = '';
+            }
+            headline = headline.replace(/^\d+\.\s*/, '');
+            cardsHTML += `
+              <div class="result-card">
+                <h3 class="headline">${escapeHtml(headline)}</h3>
+                <p class="subheadline">${escapeHtml(subheadline)}</p>
+                <button class="copy-btn" data-headline="${escapeHtml(headline)}" data-subheadline="${escapeHtml(subheadline)}">📋 Copy</button>
+              </div>
+            `;
+          });
+
+          outputDiv.innerHTML = `<div class="results-grid">${cardsHTML}</div>`;
+          document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', copyToClipboard);
+          });
+
+        } catch (error) {
+          console.error('Generation failed:', error);
+          outputDiv.innerHTML = `
+            <div class="error-card">
+              <p>😔 Oops! Something went wrong.</p>
+              <p style="font-size:0.85rem; margin-top:0.5rem;">${escapeHtml(error.message)}</p>
+              <button id="retryBtn" class="generate-btn" style="margin-top:1.2rem;">🔄 Retry</button>
+            </div>
+          `;
+          document.getElementById('retryBtn').addEventListener('click', generateHeadlines);
+        }
+      }
+
+      function copyToClipboard(e) {
+        const btn = e.currentTarget;
+        const headline = btn.dataset.headline;
+        const subheadline = btn.dataset.subheadline;
+        const textToCopy = `${headline}\n${subheadline}`;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalHTML = btn.innerHTML;
+          btn.innerHTML = '✓ Copied!';
+          btn.disabled = true;
+          setTimeout(() => {
+            btn.innerHTML = originalHTML;
+            btn.disabled = false;
+          }, 2000);
+        }).catch(() => {
+          alert('Failed to copy. Please copy manually.');
+        });
+      }
+
+      generateBtn.addEventListener('click', generateHeadlines);
+    })();
+  </script>
+</body>
+</html>
